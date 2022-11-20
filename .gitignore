@@ -1,0 +1,16 @@
+HELP.md
+target/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### Maven Wrapper ###
+.mvn
+user.name=Hernan Tenjo
+user.email=htenjomateus@twilio.com
