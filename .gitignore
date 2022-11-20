@@ -9,8 +9,3 @@ target/
 
 ### VS Code ###
 .vscode/
-
-### Maven Wrapper ###
-.mvn
-user.name=Hernan Tenjo
-user.email=htenjomateus@twilio.com

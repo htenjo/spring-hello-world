@@ -20,6 +20,8 @@ mvn_dependency:
 docker_build:
 	docker build --tag ${DOCKER_USERNAME}/${APP_NAME}:${GIT_HASH} --tag ${DOCKER_USERNAME}/${APP_NAME}:latest .
 
+docker_build_full: build_all mvn_dependency docker_build
+
 docker_run:
 	docker run -e "SPRING_PROFILES_ACTIVE=${SPRING_PROFILE}" -p 8080:8080 ${DOCKER_USERNAME}/${APP_NAME}
 
