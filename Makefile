@@ -15,6 +15,7 @@ run:
 build_run: build run
 
 mvn_dependency:
+	rm -rf target/dependency
 	mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 docker_build:
@@ -38,3 +39,9 @@ docker_release:
 	docker pull ${DOCKER_USERNAME}/${APP_NAME}:${GIT_HASH}
 	docker tag  ${DOCKER_USERNAME}/${APP_NAME}:${GIT_HASH} ${DOCKER_USERNAME}/${APP_NAME}:latest
 	docker push ${DOCKER_USERNAME}/${APP_NAME}:latest
+
+build_compose: build mvn_dependency
+	docker-compose up --build
+
+compose: mvn_dependency
+	docker-compose up

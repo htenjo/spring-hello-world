@@ -1,16 +1,16 @@
-# Use root/example as user/password credentials
-version: '3.1'
+version: '3.8'
 
 services:
-  mongo:
-    image: mongo
-    container_name: hello_mongo
-    restart: always
+  hello-mongo-web:
+    # build will get tagged with 'image'
+    build: .
+    image: htenjo/hello-mongo-web
+    container_name: hello-mongo-web
     ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      - "8080:8080"
+    depends_on:
+      - mongo
+    env_file: .env
 
   mongo-express:
     image: mongo-express
@@ -18,7 +18,19 @@ services:
     restart: always
     ports:
       - "8081:8081"
+    depends_on:
+      - mongo
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/
+
+  mongo:
+    image: mongo
+    container_name: hello_mongo
+    restart: always
+    ports:
+      - "${MONGO_PORT}:${MONGO_PORT}"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
